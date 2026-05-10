@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">N</div>
+      <div>
+        <div class="sidebar-brand">Nexora</div>
+        <div class="sidebar-sub">Admin Panel</div>
+      </div>
+      <button class="sidebar-close" id="sidebar-close">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">OVERVIEW & ANALYTICS</div>
+        <a href="#" class="nav-item active" data-view="overview">
+          <span class="nav-icon">📊</span> Dashboard
+          <span class="nav-subtitle">Overview & Analytics</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">BLOG & CONTENT</div>
+        <a href="#" class="nav-item" data-view="blogs">
+          <span class="nav-icon">📝</span> Blogs
+          <span class="nav-subtitle">Write & manage articles</span>
+        </a>
+        <a href="#" class="nav-item" data-view="community">
+          <span class="nav-icon">💬</span> Community Hub
+          <span class="nav-subtitle">Announcements, Gallery</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">PORTFOLIO & WORK</div>
+        <a href="#" class="nav-item" data-view="cases">
+          <span class="nav-icon">💼</span> Case Studies
+          <span class="nav-subtitle">Our best work</span>
+        </a>
+        <a href="#" class="nav-item" data-view="contacts">
+          <span class="nav-icon">📬</span> Leads & Enquiries
+          <span class="nav-subtitle">Contact submissions</span>
+          <span class="badge" id="unread-badge" style="display:none">0</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">WEBSITE SECTIONS</div>
+        <a href="#" class="nav-item" data-view="logos">
+          <span class="nav-icon">🎨</span> Client Logos
+          <span class="nav-subtitle">Homepage + marquee</span>
+        </a>
+        <a href="#" class="nav-item" data-view="testimonials">
+          <span class="nav-icon">⭐</span> Client Reviews
+          <span class="nav-subtitle">Testimonials</span>
+        </a>
+        <a href="#" class="nav-item" data-view="portfolio">
+          <span class="nav-icon">🖼️</span> Stats & Numbers
+          <span class="nav-subtitle">Homepage & About stats</span>
+        </a>
+        <a href="#" class="nav-item" data-view="team">
+          <span class="nav-icon">👥</span> Team Members
+          <span class="nav-subtitle">About & Team page</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">SETTINGS</div>
+        <a href="#" class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙️</span> Scripts & Tracking
+          <span class="nav-subtitle">Analytics, Chat, Pixels</span>
+        </a>
+        <a href="#" class="nav-item" data-view="users">
+          <span class="nav-icon">🔐</span> Admin Users
+          <span class="nav-subtitle">Manage access</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" class="nav-item" target="_blank">
+        <span class="nav-icon">🌐</span> View Site
+      </a>
+      <a href="#" class="nav-item nav-logout" id="logout-btn">
+        <span class="nav-icon">🚪</span> Logout
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main-wrap">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="hamburger" id="hamburger">☰</button>
+      <div class="topbar-title" id="topbar-title">Overview</div>
+      <div class="topbar-right">
+        <div class="admin-chip">Admin</div>
+      </div>
+    </header>
+
+    <!-- ── Views ── -->
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section class="view active" id="view-overview">
+        <div class="view-header">
+          <div>
+            <h2>Dashboard</h2>
+            <p class="view-sub">Welcome back — here is what is happening with NexoiX.</p>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid-modern" id="stats-grid">
+          <div class="stat-card-modern loading"><div class="stat-shimmer"></div></div>
+          <div class="stat-card-modern loading"><div class="stat-shimmer"></div></div>
+          <div class="stat-card-modern loading"><div class="stat-shimmer"></div></div>
+          <div class="stat-card-modern loading"><div class="stat-shimmer"></div></div>
+        </div>
+
+        <!-- Quick Actions & Recent Leads -->
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="quick-actions-grid">
+              <button class="quick-action-btn" onclick="newBlog()">
+                <span class="qa-icon" style="background: #10b981;">📝</span>
+                <div class="qa-content">
+                  <div class="qa-title">Write New Blog</div>
+                  <div class="qa-subtitle">Add a blog, event or update</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="newCase()">
+                <span class="qa-icon" style="background: #6366f1;">💼</span>
+                <div class="qa-content">
+                  <div class="qa-title">Add Case Study</div>
+                  <div class="qa-subtitle">Showcase a new project</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="switchView('logos')">
+                <span class="qa-icon" style="background: #8b5cf6;">🎨</span>
+                <div class="qa-content">
+                  <div class="qa-title">Client Logos</div>
+                  <div class="qa-subtitle">Homepage trust marquee</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="switchView('team')">
+                <span class="qa-icon" style="background: #3b82f6;">👥</span>
+                <div class="qa-content">
+                  <div class="qa-title">Manage Team</div>
+                  <div class="qa-subtitle">Add or update team members</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="switchView('testimonials')">
+                <span class="qa-icon" style="background: #ec4899;">⭐</span>
+                <div class="qa-content">
+                  <div class="qa-title">Client Reviews</div>
+                  <div class="qa-subtitle">Testimonials & ratings</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="switchView('portfolio')">
+                <span class="qa-icon" style="background: #14b8a6;">📊</span>
+                <div class="qa-content">
+                  <div class="qa-title">Stats & Numbers</div>
+                  <div class="qa-subtitle">Homepage & About stats</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="switchView('settings')">
+                <span class="qa-icon" style="background: #f59e0b;">⚙️</span>
+                <div class="qa-content">
+                  <div class="qa-title">Scripts & Settings</div>
+                  <div class="qa-subtitle">Manage overlay, about, pixels</div>
+                </div>
+              </button>
+              <button class="quick-action-btn" onclick="window.open('../index.html', '_blank')">
+                <span class="qa-icon" style="background: #ef4444;">🌐</span>
+                <div class="qa-content">
+                  <div class="qa-title">View Website</div>
+                  <div class="qa-subtitle">Open live site in new tab</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3>Recent Leads</h3>
+              <a href="#" onclick="switchView('contacts'); return false;" class="view-all-link">View all →</a>
+            </div>
+            <div id="recent-contacts-modern">
+              <div class="empty-state">
+                <div class="empty-icon">📬</div>
+                <div class="empty-title">No leads yet</div>
+                <div class="empty-subtitle">Share your website to start receiving leads</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BLOGS -->
+      <section class="view" id="view-blogs">
+        <div class="view-header">
+          <div>
+            <h2>Blog Engine</h2>
+            <p class="view-sub">Create and manage your blog articles.</p>
+          </div>
+          <button class="btn btn-primary" id="new-blog-btn">+ New Article</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="blogs-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogs-tbody"><tr><td colspan="5" class="loading-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CASES -->
+      <section class="view" id="view-cases">
+        <div class="view-header">
+          <div>
+            <h2>Case Studies</h2>
+            <p class="view-sub">Showcase your project results and client wins.</p>
+          </div>
+          <button class="btn btn-primary" id="new-case-btn">+ New Case Study</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="cases-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Client</th>
+                <th>Industry</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cases-tbody"><tr><td colspan="5" class="loading-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="view" id="view-testimonials">
+        <div class="view-header">
+          <div>
+            <h2>Testimonials</h2>
+            <p class="view-sub">Manage and approve client reviews.</p>
+          </div>
+          <button class="btn btn-primary" id="new-testimonial-btn">+ Add Testimonial</button>
+        </div>
+        <div class="testimonials-tabs">
+          <button class="tab-btn active" data-tab="pending">Pending Approval</button>
+          <button class="tab-btn" data-tab="approved">Approved</button>
+        </div>
+        <div id="testimonials-list">Loading...</div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section class="view" id="view-portfolio">
+        <div class="view-header">
+          <div>
+            <h2>Portfolio / Work Gallery</h2>
+            <p class="view-sub">Upload and categorize your design projects.</p>
+          </div>
+          <button class="btn btn-primary" id="new-portfolio-btn">+ Add Project</button>
+        </div>
+        <div class="portfolio-grid" id="portfolio-grid">
+          <div class="loading-row">Loading...</div>
+        </div>
+      </section>
+
+      <!-- CONTACTS -->
+      <section class="view" id="view-contacts">
+        <div class="view-header">
+          <div>
+            <h2>Contact Inbox</h2>
+            <p class="view-sub">Messages submitted through the contact form.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-tbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="view-settings">
+        <div class="view-header">
+          <div>
+            <h2>Global Settings</h2>
+            <p class="view-sub">Update your contact info, social links, and SEO metadata.</p>
+          </div>
+        </div>
+        <form class="settings-form" id="settings-form">
+          <div class="settings-group">
+            <h3>📞 Contact Information</h3>
+            <div class="settings-grid">
+              <div class="form-group"><label>Site Name</label><input type="text" name="site_name" /></div>
+              <div class="form-group"><label>Email</label><input type="email" name="email" /></div>
+              <div class="form-group"><label>Phone</label><input type="tel" name="phone" /></div>
+              <div class="form-group"><label>WhatsApp</label><input type="tel" name="whatsapp" /></div>
+              <div class="form-group"><label>Address / Location</label><input type="text" name="address" /></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>🔗 Social Links</h3>
+            <div class="settings-grid">
+              <div class="form-group"><label>Facebook URL</label><input type="url" name="facebook_url" /></div>
+              <div class="form-group"><label>Twitter / X URL</label><input type="url" name="twitter_url" /></div>
+              <div class="form-group"><label>LinkedIn URL</label><input type="url" name="linkedin_url" /></div>
+              <div class="form-group"><label>Instagram URL</label><input type="url" name="instagram_url" /></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <h3>🔍 SEO Metadata</h3>
+            <div class="settings-grid">
+              <div class="form-group"><label>SEO Title</label><input type="text" name="seo_title" /></div>
+              <div class="form-group"><label>OG Image URL</label><input type="url" name="og_image" /></div>
+              <div class="form-group full-width"><label>SEO Description</label><textarea name="seo_description" rows="3"></textarea></div>
+            </div>
+          </div>
+          <div id="settings-feedback" class="form-feedback"></div>
+          <button type="submit" class="btn btn-primary">Save All Settings</button>
+        </form>
+      </section>
+
+      <!-- TEAM MEMBERS -->
+      <section class="view" id="view-team">
+        <div class="view-header">
+          <div>
+            <h2>Team Members</h2>
+            <p class="view-sub">Manage team accounts and their access permissions.</p>
+          </div>
+          <button class="btn btn-primary" id="new-team-btn">+ Add Team Member</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="team-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Permissions</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="team-tbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ── Modal ── -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">New Item</h3>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- dynamic content injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
